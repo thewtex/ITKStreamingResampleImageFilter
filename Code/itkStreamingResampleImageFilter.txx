@@ -2,14 +2,14 @@
 #ifndef __itkStreamingResampleImageFilter_txx
 #define __itkStreamingResampleImageFilter_txx
 
-#include "itkStreamingResampleImageFilterTest.h"
+#include "itkStreamingResampleImageFilter.h"
 
 namespace itk
 {
 
 template < class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
 void 
-ResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionType >
+StreamingResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionType >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -18,7 +18,7 @@ ResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionType >
 
 template < class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
 void 
-ResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionType >
+StreamingResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionType >
 ::GenerateInputRequestedRegion( ) 
 {
 }
