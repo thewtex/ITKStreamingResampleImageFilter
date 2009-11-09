@@ -13,6 +13,7 @@ void RegisterTests()
 }
 
 #include "itkAffineTransform.h"
+#include "itkDifferenceImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
@@ -50,8 +51,8 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
   reader->UpdateOutputInformation();
 
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
-  transform->Scale( 0.9 );
-  transform->Rotate( 0, 1, 0.1 );
+  transform->Scale( 0.8 );
+  transform->Rotate( 0, 1, 0.2 );
   TransformType::OutputVectorType translation;
   translation[0] = 0.0;
   translation[1] = 3.0*spacing[1];
@@ -67,7 +68,7 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
   notStreamedFilter->SetReferenceImage( reader->GetOutput() );
   notStreamedFilter->SetInput( reader->GetOutput() );
 
-  writer->SetNumberOfStreamDivisions( 8 );
+  writer->SetNumberOfStreamDivisions( 4 );
   try
     {
     writer->SetFileName( argv[2] );
@@ -77,6 +78,27 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
     writer->SetFileName( argv[3] );
     writer->SetInput( notStreamedFilter->GetOutput() );
     writer->Update();
+
+    typedef itk::Image< char, Dimension > DiffOutputType;
+    ReaderType::Pointer testReader = ReaderType::New();
+    testReader->SetFileName( argv[2] );
+    ReaderType::Pointer baseLineReader = ReaderType::New();
+    baseLineReader->SetFileName( argv[3] );
+    typedef itk::DifferenceImageFilter< ImageType, DiffOutputType > DiffType;
+    DiffType::Pointer diff = DiffType::New();
+    diff->SetValidInput( baseLineReader->GetOutput() );
+    diff->SetTestInput( testReader->GetOutput() );
+    diff->SetToleranceRadius( 0 );
+    diff->SetDifferenceThreshold( 2 );
+    diff->UpdateLargestPossibleRegion();
+
+    std::cout << "There were " << diff->GetNumberOfPixelsWithDifferences() << " pixels with differences." << std::endl;
+
+    typedef itk::ImageFileWriter< DiffOutputType > DiffWriterType;
+    DiffWriterType::Pointer diffwriter = DiffWriterType::New();
+    diffwriter->SetInput( diff->GetOutput() );
+    diffwriter->SetFileName( "StreamingResampleImageFilterDiff.mha" );
+    diffwriter->Update();
     }
   catch( itk::ExceptionObject & excep )
     {

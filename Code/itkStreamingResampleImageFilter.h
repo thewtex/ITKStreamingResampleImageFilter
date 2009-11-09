@@ -58,6 +58,17 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
+  typedef typename TInputImage::IndexType  InputIndexType;
+  typedef typename TOutputImage::IndexType OutputIndexType;
+
+  typedef typename TInputImage::SizeType   InputSizeType;
+  typedef typename Superclass::SizeType    OutputSizeType;
+
+  /** Image point typedef. */
+  typedef typename Superclass::PointType    PointType;
+
+  typedef typename Superclass::TransformPointerType TransformPointerType;
+
 protected:
   StreamingResampleImageFilter() {};
   ~StreamingResampleImageFilter() {};
