@@ -69,8 +69,8 @@ StreamingResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionTy
   unsigned int ii = 0;
   int          tempIndexFloor;
   int	       tempIndexCeil;
-  unsigned int indexFloor;
-  unsigned int indexCeil;
+  int indexFloor;
+  int indexCeil;
   for( i = 0; i < this->ImageDimension; i++ )
     {
     boundingBoxPoints *= 2;
@@ -117,7 +117,7 @@ StreamingResampleImageFilter< TInputImage, TOutputImage,TInterpolatorPrecisionTy
     if( inputMinIndex[j] < inputLargestIndex[j] )
       inputMinIndex[j] = inputLargestIndex[j];
 
-    if( inputMaxIndex[j] > static_cast< unsigned int >( inputLargestIndex[j] + inputLargestSize[j] - 1 ) )
+    if( inputMaxIndex[j] > static_cast< int >( inputLargestIndex[j] + inputLargestSize[j] - 1 ) )
       inputSize[j] = inputLargestIndex[j] + inputLargestSize[j] - inputMinIndex[j];
     else
       inputSize[j] = inputMaxIndex[j] - inputMinIndex[j] + 1;
