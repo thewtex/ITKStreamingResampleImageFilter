@@ -1,10 +1,13 @@
 This provides a streaming version of the InsightToolkit class
 ResampleImageFilter.
 
-Warning: This class should only be used when the transformed associated with the
+Warning: This class should only be used when the transform associated with the
 object is linear or at least behaves linearly in the direction(s) that are
 streamed.  Otherwise, the results may not be correct.
 
 This class inherits from ResampleImageFilter, so the behavior is the same apart
 from sending the RequestedRegion upstream instead of requiring the input to
 update the LargestPossibleRegion for any RequestedRegion.
+
+The InputRequestedRegion is calculated as the bounding box implied by the
+corners of the output's RequestedRegion.
