@@ -13,7 +13,7 @@ add_test( itkStreamingResampleImageFilterTest
   --compare itkStreamingResampleImageFilterTestStreamed.mha
 	    itkStreamingResampleImageFilterTestNotStreamed.mha
   itkStreamingResampleImageFilterTest 
-    ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+    ${STREAMING_RESAMPLE_IMAGE_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mha
     itkStreamingResampleImageFilterTestStreamed.mha
     itkStreamingResampleImageFilterTestNotStreamed.mha
   )
