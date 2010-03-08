@@ -69,16 +69,17 @@ public:
 
   typedef typename Superclass::TransformPointerType TransformPointerType;
 
+  /** We set the input requested region to the bounding box on the input
+   * suggested by the corners of the output requested region, which is why
+   * the transform must behave linearly in the directions streamed. */
+  virtual void GenerateInputRequestedRegion();
+  //virtual void GenerateOutputInformation();
+
 protected:
   StreamingResampleImageFilter() {};
   ~StreamingResampleImageFilter() {};
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
-
-  /** We set the input requested region to the bounding box on the input
-   * suggested by the corners of the output requested region, which is why
-   * transform must behave linearly in the directions streamed. */
-  virtual void GenerateInputRequestedRegion();
 
 private:
   StreamingResampleImageFilter( const Self& ); //purposely not implemented
