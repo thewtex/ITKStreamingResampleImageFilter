@@ -49,7 +49,10 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
   reader->SetFileName( argv[1] );
   reader->UpdateOutputInformation();
 
+  ImageType::SizeType    size    = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
+  ImageType::PointType origin   = reader->GetOutput()->GetOrigin();
+  ImageType::DirectionType direction = reader->GetOutput()->GetDirection();
   transform->Scale( 0.8 );
   transform->Rotate( 0, 1, 0.2 );
   TransformType::OutputVectorType translation;
@@ -59,12 +62,16 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
   transform->SetTranslation( translation );
 
   streamedFilter->SetTransform( transform );
-  streamedFilter->UseReferenceImageOn();
-  streamedFilter->SetReferenceImage( reader->GetOutput() );
+  streamedFilter->SetOutputDirection( direction );
+  streamedFilter->SetOutputOrigin( origin );
+  streamedFilter->SetOutputSpacing( spacing );
+  streamedFilter->SetSize( size );
   streamedFilter->SetInput( reader->GetOutput() );
   notStreamedFilter->SetTransform( transform );
-  notStreamedFilter->UseReferenceImageOn();
-  notStreamedFilter->SetReferenceImage( reader->GetOutput() );
+  notStreamedFilter->SetOutputDirection( direction );
+  notStreamedFilter->SetOutputOrigin( origin );
+  notStreamedFilter->SetOutputSpacing( spacing );
+  notStreamedFilter->SetSize( size );
   notStreamedFilter->SetInput( reader->GetOutput() );
 
   writer->SetNumberOfStreamDivisions( 8 );
