@@ -51,8 +51,9 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
 
   ImageType::SizeType    size    = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
-  ImageType::PointType origin   = reader->GetOutput()->GetOrigin();
+  ImageType::PointType   origin  = reader->GetOutput()->GetOrigin();
   ImageType::DirectionType direction = reader->GetOutput()->GetDirection();
+
   transform->Scale( 0.8 );
   transform->Rotate( 0, 1, 0.2 );
   TransformType::OutputVectorType translation;
@@ -60,6 +61,9 @@ int itkStreamingResampleImageFilterTest( int argc, char* argv[] )
   translation[1] = 3.0*spacing[1];
   translation[2] = 7.0*spacing[2];
   transform->SetTranslation( translation );
+
+  size[2] = size[2] * 5;
+  spacing[2] = spacing[2] / 5.;
 
   streamedFilter->SetTransform( transform );
   streamedFilter->SetOutputDirection( direction );
