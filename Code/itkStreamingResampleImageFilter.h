@@ -45,7 +45,6 @@ public:
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
   typedef typename OutputImageType::Pointer       OutputImagePointer;
   typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename OutputImageType::RegionType    OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -68,15 +67,13 @@ public:
   /** Image point typedef. */
   typedef typename Superclass::PointType    PointType;
 
-  typedef typename Superclass::TransformType        TransformType;
   typedef typename Superclass::TransformPointerType TransformPointerType;
 
   /** We set the input requested region to the bounding box on the input
    * suggested by the corners of the output requested region, which is why
    * the transform must behave linearly in the directions streamed. */
   virtual void GenerateInputRequestedRegion();
-  /** The output RequestedRegion must be determined. */
-  virtual void GenerateOutputInformation();
+  //virtual void GenerateOutputInformation();
 
 protected:
   StreamingResampleImageFilter() {};
